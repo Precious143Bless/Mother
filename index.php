@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Mother's Day | Animated Hearts & Flowers Greeting</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none; /* subtle, but hearts/flowers are interactive */
+    }
+
+    body {
+      background: linear-gradient(145deg, #fef7ee 0%, #ffe6d5 100%);
+      font-family: 'Inter', sans-serif;
+      color: #2e241f;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Animated background floating particles (hearts & flowers canvas-like) */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .floating-item {
+      position: absolute;
+      font-size: 1.2rem;
+      opacity: 0.6;
+      animation: floatAround 12s infinite ease-in-out;
+      pointer-events: none;
+      filter: drop-shadow(0 0 2px rgba(255,240,210,0.5));
+      z-index: 0;
+    }
+
+    @keyframes floatAround {
+      0% { transform: translateY(100vh) rotate(0deg) scale(0.4); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-20vh) rotate(360deg) scale(1.1); opacity: 0; }
+    }
+
+    /* different delays for bg animation */
+    .floating-item:nth-child(odd) { animation-duration: 14s; animation-delay: -2s; }
+    .floating-item:nth-child(3n) { animation-duration: 18s; animation-delay: -5s; font-size: 1.6rem; }
+    .floating-item:nth-child(5n+2) { animation-duration: 11s; }
+
+    /* main container with higher z-index */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* Hero section animations */
+    .hero {
+      text-align: center;
+      padding: 1rem 0 1.5rem;
+      animation: fadeSlideUp 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .greeting-sub {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      letter-spacing: 5px;
+      color: #c27e5c;
+      background: rgba(255, 245, 235, 0.75);
+      display: inline-block;
+      padding: 0.3rem 1.4rem;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 12vw, 6rem);
+      font-weight: 700;
+      color: #9b4b2e;
+      line-height: 1.1;
+      margin: 0.5rem 0;
+      text-shadow: 3px 3px 14px rgba(155, 75, 46, 0.15);
+    }
+
+    .hero h1 span {
+      display: block;
+      font-size: clamp(2rem, 8vw, 3.8rem);
+      font-weight: 500;
+      color: #c47a5a;
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      max-width: 540px;
+      margin: 1rem auto;
+      color: #5e3a2e;
+      background: rgba(255, 250, 240, 0.7);
+      padding: 0.6rem 1.4rem;
+      border-radius: 70px;
+      backdrop-filter: blur(3px);
+      display: inline-block;
+    }
+
+    /* rose divider animated */
+    .rose-divider {
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: 14px;
+      margin: 1rem 0 0.8rem;
+      color: #edb28b;
+      animation: gentlePulse 2s infinite;
+    }
+
+    @keyframes gentlePulse {
+      0% { transform: scale(1); opacity: 0.8; text-shadow: 0 0 0px #ffccaa; }
+      50% { transform: scale(1.08); opacity: 1; text-shadow: 0 0 8px #ffb48a; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+
+    .rose-icon-click {
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    .rose-icon-click:active {
+      transform: scale(0.85);
+    }
+
+    /* stylish button */
+    .btn-letter {
+      background: rgba(255, 250, 240, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid #f5cfb3;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.9rem 2.3rem;
+      border-radius: 80px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #9b4b2e;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      margin: 0.8rem 0;
+    }
+
+    .btn-letter i {
+      transition: transform 0.2s;
+    }
+
+    .btn-letter:hover {
+      background: #fff6ef;
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 15px 28px rgba(155, 75, 46, 0.2);
+      border-color: #e7b28b;
+    }
+
+    .btn-letter:hover i {
+      transform: translateY(3px) rotate(15deg);
+    }
+
+    /* letter panel */
+    .letter-panel {
+      max-width: 780px;
+      margin: 2rem auto 2.5rem;
+      background: #fffef7;
+      border-radius: 48px;
+      box-shadow: 0 28px 40px -15px rgba(80, 40, 20, 0.25);
+      transition: all 0.4s;
+      border: 1px solid #ffefdf;
+    }
+
+    .letter-content {
+      padding: 2rem 2rem;
+      display: none;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.5s ease;
+    }
+
+    .letter-content.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .letter-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 500;
+      color: #b95f3a;
+      border-bottom: 2px solid #fadbc8;
+      display: inline-block;
+      padding-bottom: 0.4rem;
+    }
+
+    .letter-body {
+      font-size: 1.05rem;
+      line-height: 1.68;
+      color: #2c241f;
+      background: #fffaf5;
+      padding: 1.8rem;
+      border-radius: 32px;
+      box-shadow: inset 0 0 0 1px #fff0e2, 0 6px 14px rgba(0,0,0,0.02);
+    }
+
+    .signature {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      text-align: right;
+      color: #b16240;
+      border-top: 1px dashed #f0cfb5;
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .love-icon {
+      text-align: center;
+      font-size: 2rem;
+      margin: 0.8rem 0 0;
+      letter-spacing: 6px;
+    }
+
+    /* flower row animated hover & spin */
+    .flower-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0 1rem;
+      flex-wrap: wrap;
+    }
+
+    .flower-row span {
+      font-size: 2rem;
+      cursor: pointer;
+      transition: transform 0.3s, filter 0.2s;
+      display: inline-block;
+      background: rgba(255, 235, 215, 0.6);
+      border-radius: 60px;
+      padding: 0.1rem 0.6rem;
+    }
+
+    .flower-row span:hover {
+      transform: scale(1.25) rotate(8deg);
+      filter: drop-shadow(0 6px 8px rgba(233, 130, 70, 0.3));
+    }
+
+    /* floating hearts container for click-emit */
+    .floating-emitter {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .animated-heart {
+      position: absolute;
+      font-size: 1.2rem;
+      animation: flyHeartLove 2s ease-out forwards;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    @keyframes flyHeartLove {
+      0% { transform: translateY(0) scale(0.6); opacity: 1; }
+      70% { transform: translateY(-70px) scale(1.2); opacity: 0.9; }
+      100% { transform: translateY(-150px) scale(0.4); opacity: 0; }
+    }
+
+    .animated-flower {
+      position: absolute;
+      font-size: 1.3rem;
+      animation: flowerSpinDrift 2.2s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes flowerSpinDrift {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0.9; }
+      100% { transform: translate(30px, -120px) rotate(280deg); opacity: 0; }
+    }
+
+    /* additional background heart burst */
+    .click-effect-burst {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #b38d74;
+      border-top: 1px solid #fadbc8;
+      padding-top: 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 1rem; }
+      .letter-body { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Animated background with floating hearts & flowers (continuous) -->
+<div class="animated-bg" id="animatedBg"></div>
+
+<!-- Main content -->
+<div class="container">
+  <div class="hero">
+    <div class="greeting-sub"><i class="fas fa-heart"></i> With Endless Love <i class="fas fa-heart"></i></div>
+    <h1>
+      Happy<br>
+      <span>Mother's Day</span>
+    </h1>
+    <div class="tagline">
+      <i class="fas fa-feather-alt"></i> For you, Mom. My light, my strength, my heart.
+    </div>
+  </div>
+
+  <div class="rose-divider">
+    <span class="rose-icon-click" id="roseLeft">🌹</span> 
+    <span>💮</span>
+    <span class="rose-icon-click" id="roseRight">🌹</span>
+  </div>
+
+  <div style="text-align: center;">
+    <button class="btn-letter" id="revealLetterBtn">
+      <span>💌 Read My Letter</span> <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+
+  <!-- Letter Panel -->
+  <div class="letter-panel" id="letterPanel">
+    <div class="letter-content" id="letterContent">
+      <div class="letter-header">
+        <h2>A Letter From the Heart</h2>
+      </div>
+      <div class="letter-body">
+        <p>My dearest Mom,</p>
+        <p>There are words I have carried in my heart for so long, things I feel but don't always say. You gave me your time, your patience, your endless smiles even on tired days. I remember your gentle hands, the warmth of your hugs, and how you always believed in me.</p>
+        <p>Every sacrifice, every prayer, every little thing you've done, it built a beautiful world for me. I hope today you feel wrapped in the same love you have showered on me all these years.</p>
+        <p>You are my comfort, and my dearest friend. Thank you for being you, irreplaceable.</p>
+        <div class="signature">
+          Forever grateful, <br> your child ♥
+        </div>
+      </div>
+      <div class="love-icon">
+        <i class="fas fa-heart" style="color:#e4724a;"></i> <i class="fas fa-heart" style="color:#f28b62;"></i> <i class="fas fa-heart" style="color:#f7a07c;"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="flower-row" id="flowerRow">
+    <span>🌹</span><span>🌸</span><span>🌻</span><span>🌼</span><span>💐</span><span>🌺</span><span>🌷</span>
+  </div>
+
+  <footer>
+    <p>✨ every heartbeat whispers "I love you, Mom" ✨</p>
+  </footer>
+</div>
+
+<div class="floating-emitter" id="floatingEmitter"></div>
+
+<script>
+  (function() {
+    // --- Background floating generator (hearts & flowers forever)
+    const bgContainer = document.getElementById('animatedBg');
+    const emitter = document.getElementById('floatingEmitter');
+    
+    // list of love icons & flower icons for background drift
+    const loveSymbols = ['❤️', '💖', '💗', '💓', '🌸', '🌹', '🌷', '💐', '🌼', '🌺', '🥀', '💕', '💞', '💘'];
+    
+    function createBackgroundFloater() {
+      const item = document.createElement('div');
+      item.classList.add('floating-item');
+      const randomIcon = loveSymbols[Math.floor(Math.random() * loveSymbols.length)];
+      item.textContent = randomIcon;
+      const size = Math.random() * 1.8 + 0.9; // rem
+      item.style.fontSize = size + 'rem';
+      item.style.left = Math.random() * 100 + '%';
+      item.style.animationDelay = Math.random() * 15 + 's';
+      item.style.animationDuration = 12 + Math.random() * 10 + 's';
+      item.style.opacity = Math.random() * 0.6 + 0.2;
+      bgContainer.appendChild(item);
+      
+      // remove after animation ends to avoid memory overflow
+      setTimeout(() => {
+        if (item && item.remove) item.remove();
+      }, 22000);
+    }
+    
+    // Generate floating items periodically
+    setInterval(() => {
+      createBackgroundFloater();
+    }, 1800);
+    // initial burst
+    for (let i = 0; i < 15; i++) {
+      setTimeout(() => createBackgroundFloater(), i * 200);
+    }
+    
+    // ----- Helper: Emit animated hearts/flowers at specific coordinates or random near element
+    function emitHearts(x, y, count = 5, type = 'heart') {
+      for (let i = 0; i < count; i++) {
+        const offsetX = (Math.random() - 0.5) * 50;
+        const offsetY = (Math.random() - 0.5) * 40 - 10;
+        const posX = x + offsetX;
+        const posY = y + offsetY;
+        const el = document.createElement('div');
+        if (type === 'heart') {
+          el.classList.add('animated-heart');
+          const heartVariants = ['❤️', '💖', '💗', '💘', '💕', '💓'];
+          el.textContent = heartVariants[Math.floor(Math.random() * heartVariants.length)];
+        } else {
+          el.classList.add('animated-flower');
+          const flowers = ['🌹', '🌸', '🌼', '🌻', '🌺', '🌷', '💐'];
+          el.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+        }
+        el.style.left = posX + 'px';
+        el.style.top = posY + 'px';
+        el.style.position = 'fixed';
+        el.style.fontSize = (Math.random() * 1.2 + 0.9) + 'rem';
+        el.style.zIndex = '10000';
+        emitter.appendChild(el);
+        setTimeout(() => { if (el && el.remove) el.remove(); }, 2100);
+      }
+    }
+    
+    function emitBurstFromElement(element, heartCount = 8, includeFlowers = true) {
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      emitHearts(centerX, centerY, heartCount, 'heart');
+      if (includeFlowers) {
+        setTimeout(() => {
+          for (let i = 0; i < 4; i++) {
+            const offX = (Math.random() - 0.5) * 60;
+            const offY = (Math.random() - 0.5) * 40;
+            const flowerEl = document.createElement('div');
+            flowerEl.classList.add('animated-flower');
+            flowerEl.textContent = ['🌹', '🌸', '🌼', '🌻'][Math.floor(Math.random()*4)];
+            flowerEl.style.left = (centerX + offX) + 'px';
+            flowerEl.style.top = (centerY + offY) + 'px';
+            flowerEl.style.position = 'fixed';
+            flowerEl.style.fontSize = '1.2rem';
+            emitter.appendChild(flowerEl);
+            setTimeout(() => flowerEl.remove(), 2000);
+          }
+        }, 100);
+      }
+    }
+    
+    // ---- Letter reveal + animation burst
+    const revealBtn = document.getElementById('revealLetterBtn');
+    const letterPanel = document.getElementById('letterPanel');
+    const letterContent = document.getElementById('letterContent');
+    
+    function showLetterWithEffects() {
+      if (!letterContent.classList.contains('show')) {
+        letterContent.classList.add('show');
+        // burst hearts from button & letter panel
+        emitBurstFromElement(revealBtn, 12, true);
+        setTimeout(() => {
+          const panelRect = letterPanel.getBoundingClientRect();
+          emitHearts(panelRect.left + panelRect.width/2, panelRect.top + 40, 8, 'heart');
+          // also emit flowers around letter
+          for (let i=0;i<6;i++) {
+            setTimeout(() => {
+              const randX = panelRect.left + Math.random() * panelRect.width;
+              const randY = panelRect.top + Math.random() * 100;
+              const flowerFly = document.createElement('div');
+              flowerFly.classList.add('animated-flower');
+              flowerFly.textContent = ['🌹','🌼','🌸','🌻'][Math.floor(Math.random()*4)];
+              flowerFly.style.left = randX + 'px';
+              flowerFly.style.top = randY + 'px';
+              flowerFly.style.position = 'fixed';
+              emitter.appendChild(flowerFly);
+              setTimeout(() => flowerFly.remove(), 1900);
+            }, i*80);
+          }
+        }, 150);
+        // scroll smoothly
+        letterPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        // if already open, create a sparkling love reaction
+        const letterRect = letterPanel.getBoundingClientRect();
+        emitHearts(letterRect.left + letterRect.width/2, letterRect.top + 60, 12, 'heart');
+        emitBurstFromElement(letterPanel, 5, true);
+        letterPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+    
+    revealBtn.addEventListener('click', showLetterWithEffects);
+    
+    // Rose clicks (🌹🌹) -> lots of hearts & flowers
+    const roseLeft = document.getElementById('roseLeft');
+    const roseRight = document.getElementById('roseRight');
+    
+    function onRoseClick(event, element) {
+      const rect = element.getBoundingClientRect();
+      emitHearts(rect.left + rect.width/2, rect.top + rect.height/2, 10, 'heart');
+      for (let i=0; i<6; i++) {
+        setTimeout(() => {
+          const flowerSpan = document.createElement('div');
+          flowerSpan.classList.add('animated-flower');
+          flowerSpan.textContent = ['🌹','🌺','💮','🌼'][Math.floor(Math.random()*4)];
+          flowerSpan.style.left = (rect.left + (Math.random() * rect.width)) + 'px';
+          flowerSpan.style.top = (rect.top + (Math.random() * 30)) + 'px';
+          flowerSpan.style.position = 'fixed';
+          emitter.appendChild(flowerSpan);
+          setTimeout(() => flowerSpan.remove(), 1800);
+        }, i * 70);
+      }
+      element.style.transform = 'scale(1.3)';
+      setTimeout(() => { element.style.transform = ''; }, 200);
+    }
+    
+    roseLeft.addEventListener('click', (e) => onRoseClick(e, roseLeft));
+    roseRight.addEventListener('click', (e) => onRoseClick(e, roseRight));
+    
+    // Flower row interactive: when clicking any flower in flower-row, burst hearts+spin
+    const flowerSpans = document.querySelectorAll('.flower-row span');
+    flowerSpans.forEach(flower => {
+      flower.addEventListener('click', (e) => {
+        const rect = flower.getBoundingClientRect();
+        emitHearts(rect.left + rect.width/2, rect.top + rect.height/2, 8, 'heart');
+        // additional flower petals animation
+        for (let i=0;i<4;i++) {
+          const petal = document.createElement('div');
+          petal.classList.add('animated-flower');
+          petal.textContent = ['🌸','🌼','🌹','🌻'][Math.floor(Math.random()*4)];
+          petal.style.left = (rect.left + rect.width/2 + (Math.random()-0.5)*40) + 'px';
+          petal.style.top = (rect.top + rect.height/2 + (Math.random()-0.5)*30) + 'px';
+          petal.style.fontSize = '1rem';
+          emitter.appendChild(petal);
+          setTimeout(() => petal.remove(), 1500);
+        }
+        flower.style.transform = 'scale(1.3) rotate(12deg)';
+        setTimeout(() => { flower.style.transform = ''; }, 250);
+      });
+    });
+    
+    // Additional animation: when hovering over the button, small floating hearts around it
+    revealBtn.addEventListener('mouseenter', () => {
+      const rect = revealBtn.getBoundingClientRect();
+      for (let i=0;i<4;i++) {
+        setTimeout(() => {
+          const miniHeart = document.createElement('div');
+          miniHeart.classList.add('animated-heart');
+          miniHeart.textContent = '💖';
+          miniHeart.style.left = (rect.left + Math.random() * rect.width) + 'px';
+          miniHeart.style.top = (rect.top + rect.height - 10) + 'px';
+          miniHeart.style.fontSize = '0.9rem';
+          emitter.appendChild(miniHeart);
+          setTimeout(() => miniHeart.remove(), 1500);
+        }, i*70);
+      }
+    });
+    
+    // Double click anywhere on container — surprise extra flower + heart rain? But keep subtle
+    document.body.addEventListener('dblclick', (e) => {
+      emitHearts(e.clientX, e.clientY, 7, 'heart');
+      for (let i=0;i<3;i++) {
+        const flowerDrop = document.createElement('div');
+        flowerDrop.classList.add('animated-flower');
+        flowerDrop.textContent = ['🌹','🌸','🌼'][Math.floor(Math.random()*3)];
+        flowerDrop.style.left = (e.clientX + (Math.random()-0.5)*50) + 'px';
+        flowerDrop.style.top = (e.clientY + (Math.random()-0.5)*50) + 'px';
+        emitter.appendChild(flowerDrop);
+        setTimeout(() => flowerDrop.remove(), 1700);
+      }
+    });
+    
+    // initial welcoming hearts after load
+    window.addEventListener('load', () => {
+      const heroTitle = document.querySelector('.hero h1');
+      if (heroTitle) {
+        const rect = heroTitle.getBoundingClientRect();
+        setTimeout(() => {
+          emitHearts(rect.left + rect.width/2, rect.bottom - 20, 9, 'heart');
+        }, 600);
+      }
+      // also background special floating flowers
+      for (let i=0;i<8;i++) {
+        setTimeout(() => {
+          const welcomeFlower = document.createElement('div');
+          welcomeFlower.classList.add('animated-flower');
+          welcomeFlower.textContent = ['🌷','💐','🌹','🌸'][Math.floor(Math.random()*4)];
+          welcomeFlower.style.left = Math.random() * window.innerWidth + 'px';
+          welcomeFlower.style.top = window.innerHeight - 50 + 'px';
+          welcomeFlower.style.position = 'fixed';
+          emitter.appendChild(welcomeFlower);
+          setTimeout(() => welcomeFlower.remove(), 2000);
+        }, i * 150);
+      }
+    });
+    
+    // periodic surprise hearts from letter if it's open (adds liveliness)
+    setInterval(() => {
+      if (letterContent && letterContent.classList.contains('show')) {
+        const panelRect = letterPanel.getBoundingClientRect();
+        if (panelRect.width > 0 && Math.random() > 0.6) {
+          const randX = panelRect.left + 20 + Math.random() * (panelRect.width - 40);
+          const randY = panelRect.top + 40 + Math.random() * 100;
+          const tinyHeart = document.createElement('div');
+          tinyHeart.classList.add('animated-heart');
+          tinyHeart.textContent = '💗';
+          tinyHeart.style.left = randX + 'px';
+          tinyHeart.style.top = randY + 'px';
+          tinyHeart.style.fontSize = '1rem';
+          emitter.appendChild(tinyHeart);
+          setTimeout(() => tinyHeart.remove(), 1500);
+        }
+      }
+    }, 3000);
+    
+    // extra floating background animation of flowers moving upward already handled, but continuous
+    // also make rose-divider interactive with pulse
+    const divider = document.querySelector('.rose-divider');
+    if(divider) {
+      divider.addEventListener('click', (e) => {
+        if(e.target.classList && e.target.classList.contains('rose-icon-click')) return;
+        const rectDiv = divider.getBoundingClientRect();
+        emitHearts(rectDiv.left + rectDiv.width/2, rectDiv.top + 30, 6, 'heart');
+      });
+    }
+  })();
+</script>
+</body>
+</html>
